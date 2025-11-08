@@ -1,0 +1,33 @@
+data:
+  resample: "M"  # Monthly (for Time-MMD data)
+  window_T: 128
+  stride: 32
+  split: "time"  # or "id"
+  split_ratio:
+    train: 0.6
+    val: 0.2
+    test: 0.2
+  normalize: true
+
+train:
+  batch_size: 64
+  epochs: 30
+  lr: 0.0003
+  weight_decay: 0.0001
+  early_stopping_patience: 10
+
+eval:
+  metrics: ["mae", "dtw", "pearson"]
+
+model:
+  cca_components: 10
+  ae_hidden_dim: 64
+  ae_latent_dim: 32
+
+logging:
+  use_tensorboard: true
+  log_dir: "reports/logs"
+  save_freq: 5  # save every N epochs
+
+seeds: [42, 123, 2025]
+
