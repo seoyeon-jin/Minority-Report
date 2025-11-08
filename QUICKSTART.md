@@ -15,6 +15,8 @@
 ✓ configs/           # 하이퍼파라미터 (YAML)
 ✓ reports/           # 결과 저장 위치
 ✓ viz/               # 시각화 저장 위치
+✓ numerical/         # Numerical 데이터
+✓ textual/           # Textual 데이터
 ```
 
 ## 🚀 5분 안에 시작하기
@@ -174,8 +176,8 @@ data:
 ### 문제 2: 데이터 로드 오류
 
 ```bash
-# Time-MMD 폴더 확인
-ls Time-MMD/numerical/Agriculture/
+# numerical 폴더 확인
+ls numerical/Agriculture/
 # Agriculture.csv가 있어야 함
 ```
 

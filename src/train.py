@@ -31,7 +31,7 @@ def run_cca_linear(config, domain, seed):
         stride=config['data']['stride'],
         split_ratio=tuple(config['data']['split_ratio'].values()),
         normalize=config['data']['normalize'],
-        root_dir='Time-MMD'
+        root_dir='.'
     )
     
     # 모델 생성
@@ -85,7 +85,7 @@ def run_cross_ae(config, domain, seed):
         stride=config['data']['stride'],
         split_ratio=tuple(config['data']['split_ratio'].values()),
         normalize=config['data']['normalize'],
-        root_dir='Time-MMD'
+        root_dir='.'
     )
     
     # 데이터 차원 확인

@@ -16,7 +16,8 @@ project/
   ├── configs/          # 하이퍼파라미터 (YAML)
   ├── reports/          # 결과 표/그림
   ├── viz/              # 시각화 이미지
-  └── Time-MMD/         # 원본 데이터
+  ├── numerical/        # 원본 numerical 데이터
+  └── textual/          # 원본 textual 데이터
 ```
 
 ## 설치
@@ -162,8 +163,8 @@ Cross-AE,Agriculture,42,0.489,11.56,0.798,0.571,14.12,0.734
 ## 문제 해결
 
 ### 데이터 로드 오류
-- Time-MMD 폴더가 프로젝트 루트에 있는지 확인
-- CSV 파일 경로가 올바른지 확인
+- `numerical/`과 `textual/` 폴더가 프로젝트 루트에 있는지 확인
+- CSV 파일 경로가 올바른지 확인 (예: `numerical/Agriculture/Agriculture.csv`)
 
 ### 메모리 부족
 - `batch_size`를 줄이기 (configs/default.yaml)

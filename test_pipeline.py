@@ -25,7 +25,7 @@ def test_data_loading():
             stride=16,
             split_ratio=(0.6, 0.2, 0.2),
             normalize=True,
-            root_dir='Time-MMD'
+            root_dir='.'
         )
         
         print(f"✓ Train loader: {len(train_loader)} batches")
@@ -87,7 +87,7 @@ def test_end_to_end():
             stride=16,
             split_ratio=(0.6, 0.2, 0.2),
             normalize=True,
-            root_dir='Time-MMD'
+            root_dir='.'
         )
         
         print("✓ 데이터 로더 생성 완료")

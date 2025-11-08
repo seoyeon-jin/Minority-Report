@@ -20,7 +20,7 @@ class TimeMMDDataset(Dataset):
     
     def __init__(self, domain, data_type='numerical', window_size=128, stride=32, 
                  split='train', split_ratio=(0.6, 0.2, 0.2), normalize=True,
-                 root_dir='Time-MMD'):
+                 root_dir='.'):
         """
         Args:
             domain: 'Agriculture', 'Climate', etc.
@@ -210,7 +210,7 @@ class TimeMMDDataset(Dataset):
 
 def create_dataloaders(domain, batch_size=64, window_size=128, stride=32,
                        split_ratio=(0.6, 0.2, 0.2), normalize=True, 
-                       num_workers=0, root_dir='Time-MMD'):
+                       num_workers=0, root_dir='.'):
     """
     Train/Val/Test DataLoader 생성
     
