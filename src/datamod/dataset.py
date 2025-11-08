@@ -72,6 +72,7 @@ class TimeMMDDataset(Dataset):
         text_path = Path(root_dir) / 'textual' / domain / f'{domain}_search.csv'
         text_df = pd.read_csv(text_path)
         text_df['start_date'] = pd.to_datetime(text_df['start_date'])
+        text_df['end_date'] = pd.to_datetime(text_df['end_date'])  # end_date도 변환!
         text_df = text_df.sort_values('start_date')
         
         return num_df, text_df
