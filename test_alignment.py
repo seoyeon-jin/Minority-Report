@@ -16,7 +16,7 @@ def test_alignment():
     
     # 데이터셋 생성
     dataset = TimeMMDDatasetV2(
-        domain='Agriculture',
+        domain='Climate',
         window_size=10,  # 작은 윈도우로 테스트
         stride=5,
         split='train',

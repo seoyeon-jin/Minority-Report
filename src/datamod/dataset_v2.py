@@ -154,7 +154,7 @@ class TimeMMDDatasetV2(Dataset):
         all_dates = pd.date_range(
             start=max(num_dates.min(), text_dates.min()),
             end=min(num_dates.max(), text_dates.max()),
-            freq='MS'
+            freq='W'
         )
         
         aligned = []
