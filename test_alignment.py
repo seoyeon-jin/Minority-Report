@@ -41,16 +41,28 @@ def test_alignment():
     print(f"xA shape: {batch['xA'].shape}")
     print(f"xB shape: {batch['xB'].shape}")
     print(f"Dates (first sample, first 3 steps): {batch['dates'][0][:3]}")
-    print(f"Texts (first sample, first step): {batch['texts'][0][0][:100]}...")
+    
+    # 텍스트 출력 (길이 체크)
+    first_text = batch['texts'][0][0]
+    if len(first_text) > 100:
+        print(f"Texts (first sample, first step): {first_text[:100]}...")
+    else:
+        print(f"Texts (first sample, first step): {first_text}")
     
     print("\n✅ 데이터 정렬 확인 완료!")
-    print("\n사용법:")
+    print("\n💡 사용법:")
     print("  for batch in dataloader:")
     print("      xA = batch['xA']        # (B, T, dA) - numerical")
     print("      xB = batch['xB']        # (B, T, dB) - textual features")
-    print("      dates = batch['dates']  # List[List[datetime]]")
-    print("      texts = batch['texts']  # List[List[str]]")
+    print("      dates = batch['dates']  # List[List[str]] - 날짜 (문자열)")
+    print("      texts = batch['texts']  # List[List[str]] - 원본 텍스트")
     print("      # dates[i][t]와 texts[i][t]는 xA[i,t], xB[i,t]와 매칭됨!")
+    print("\n🔍 실제 사용 예시:")
+    print("  # 첫 번째 샘플의 세 번째 시점")
+    print(f"  날짜: {batch['dates'][0][2]}")
+    print(f"  텍스트: {batch['texts'][0][2][:50]}...")
+    print(f"  Numerical 값: {batch['xA'][0][2][:3]}")
+    print(f"  Text 특성: {batch['xB'][0][2][:3]}")
 
 
 if __name__ == '__main__':

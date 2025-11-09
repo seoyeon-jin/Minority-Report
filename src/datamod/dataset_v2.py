@@ -160,13 +160,19 @@ class TimeMMDDatasetV2(Dataset):
             
             if len(text_row) > 0:
                 fact = str(text_row.iloc[0]['fact'])
-                text_values = self._process_text(fact)
-                mask_B = 0 if fact == 'NA' else 1
-                raw_text = fact
+                # 'nan', 'NA', 빈 문자열 처리
+                if fact in ['nan', 'NA', '', 'None']:
+                    text_values = self._process_text("")
+                    mask_B = 0
+                    raw_text = "[NO TEXT]"
+                else:
+                    text_values = self._process_text(fact)
+                    mask_B = 1
+                    raw_text = fact
             else:
                 text_values = self._process_text("")
                 mask_B = 0
-                raw_text = ""
+                raw_text = "[NO TEXT]"
             
             aligned.append({
                 'date': date,
@@ -254,7 +260,8 @@ class TimeMMDDatasetV2(Dataset):
         
         # 메타데이터 추가
         if self.return_metadata:
-            result['dates'] = [d['date'] for d in window]
+            # pandas Timestamp를 문자열로 변환 (DataLoader 호환)
+            result['dates'] = [str(d['date']) for d in window]
             result['texts'] = [d['text'] for d in window]
             result['xA_raw'] = torch.FloatTensor(xA_raw)
         
