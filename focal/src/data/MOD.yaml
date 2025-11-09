@@ -1,16 +1,16 @@
 # data paths  
-pretrain_index_file: "Replace with your pretrain index file path"
+pretrain_index_file: "/home/user/sheoyon/Minority-Report/output_dir/time_data_partition/pretrain_index.txt"
 vehicle_classification:
         num_classes: 7  # number of classes
         class_names: ["Polaris", "Warhog", "Truck", "motor", "tesla", "mustang", "walk"]
-        train_index_file: "Replace with your train index file path"
-        val_index_file: "Replace with your index file path"
-        test_index_file: "Replace with your index file path"
+        train_index_file: "/home/user/sheoyon/Minority-Report/output_dir/time_data_partition/train_index.txt"
+        val_index_file: "/home/user/sheoyon/Minority-Report/output_dir/time_data_partition/val_index.txt"
+        test_index_file: "/home/user/sheoyon/Minority-Report/output_dir/time_data_partition/test_index.txt"
 distance_classification:
         num_classes: 3 # number of classes
-        train_index_file: "Replace with your index file path"
-        val_index_file: "Replace with your index file path"
-        test_index_file: "Replace with your index file path"
+        train_index_file: "/home/user/sheoyon/Minority-Report/output_dir/distance_data_partition/train_index.txt"
+        val_index_file: "/home/user/sheoyon/Minority-Report/output_dir/distance_data_partition/val_index.txt"
+        test_index_file: "/home/user/sheoyon/Minority-Report/output_dir/distance_data_partition/test_index.txt"
 speed_classification:
         num_classes: 4  # number of classes
         class_names: ["5", "10", "15", "20"]
