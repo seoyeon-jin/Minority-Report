@@ -49,18 +49,43 @@ def create_dummy_features(batch_size=64, seq_len=4, feature_dim=256):
     return mod_features
 
 
+# def split_features(mod_features):
+#     """Feature를 shared/private로 분리"""
+#     split_mod_features = {}
+    
+#     for mod in mod_features:
+#         b, seq, dim = mod_features[mod].shape
+#         split_dim = dim // 2
+#         split_mod_features[mod] = {
+#             "shared": mod_features[mod][:, :, 0:split_dim],
+#             "private": mod_features[mod][:, :, split_dim:],
+#         }
+    
+#     return split_mod_features
+
+
 def split_features(mod_features):
-    """Feature를 shared/private로 분리"""
+    """
+    Split the feature into private space and shared space.
+    mod_feature: [b, seq, dim], where we use the sequence sampler
+    """
     split_mod_features = {}
-    
+
     for mod in mod_features:
-        b, seq, dim = mod_features[mod].shape
-        split_dim = dim // 2
-        split_mod_features[mod] = {
-            "shared": mod_features[mod][:, :, 0:split_dim],
-            "private": mod_features[mod][:, :, split_dim:],
-        }
-    
+        if mod_features[mod].ndim == 2:
+            split_dim = mod_features[mod].shape[1] // 2
+            split_mod_features[mod] = {
+                "shared": mod_features[mod][:, 0:split_dim],
+                "private": mod_features[mod][:, split_dim:],
+            }
+        else:
+            b, seq, dim = mod_features[mod].shape
+            split_dim = dim // 2
+            split_mod_features[mod] = {
+                "shared": mod_features[mod][:, :, 0:split_dim],
+                "private": mod_features[mod][:, :, split_dim : 2 * split_dim],
+            }
+
     return split_mod_features
 
 
