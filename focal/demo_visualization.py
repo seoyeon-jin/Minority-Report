@@ -87,27 +87,27 @@ class FOCALVisualizerDemo:
         
         # 1. t-SNE
         print("  - t-SNE 계산 중...")
-        self._plot_tsne_comparison(split_features_dict, fig, gs[0:2, 0:2])
+        self._plot_tsne_comparison(split_features_dict, fig, gs)
         
         # 2. Similarity Heatmap
         print("  - Similarity Heatmap...")
-        self._plot_similarity_heatmap(split_features_dict, fig, gs[0, 2])
+        self._plot_similarity_heatmap(split_features_dict, fig.add_subplot(gs[0, 2]))
         
         # 3. Orthogonality
         print("  - Orthogonality 분포...")
-        self._plot_orthogonality_distribution(split_features_dict, fig, gs[1, 2])
+        self._plot_orthogonality_distribution(split_features_dict, fig.add_subplot(gs[1, 2]))
         
         # 4. Variance
         print("  - Variance 비율...")
-        self._plot_variance_ratio(split_features_dict, fig, gs[2, 0])
+        self._plot_variance_ratio(split_features_dict, fig.add_subplot(gs[2, 0]))
         
         # 5. Correlation
         print("  - Feature Correlation...")
-        self._plot_feature_correlation(split_features_dict, fig, gs[2, 1])
+        self._plot_feature_correlation(split_features_dict, fig.add_subplot(gs[2, 1]))
         
         # 6. Summary
         print("  - 종합 점수 계산...")
-        self._plot_summary_score(split_features_dict, fig, gs[2, 2])
+        self._plot_summary_score(split_features_dict, fig.add_subplot(gs[2, 2]))
         
         plt.savefig(save_path, dpi=150, bbox_inches='tight')
         print(f"\n✅ 시각화 저장 완료: {save_path}")
@@ -119,7 +119,7 @@ class FOCALVisualizerDemo:
         """t-SNE 시각화"""
         ax_shared = fig.add_subplot(gs[0, 0])
         ax_private = fig.add_subplot(gs[0, 1])
-        ax_combined = fig.add_subplot(gs[1, :])
+        ax_combined = fig.add_subplot(gs[1, 0:2])
         
         modalities = list(split_features.keys())
         
@@ -180,9 +180,8 @@ class FOCALVisualizerDemo:
         ax_combined.legend(loc='best', ncol=2, frameon=True, shadow=True)
         ax_combined.grid(True, alpha=0.3, linestyle='--')
     
-    def _plot_similarity_heatmap(self, split_features, fig, gs):
+    def _plot_similarity_heatmap(self, split_features, ax):
         """Similarity Heatmap"""
-        ax = fig.add_subplot(gs)
         modalities = list(split_features.keys())
         
         matrix = np.zeros((4, 4))
@@ -211,9 +210,8 @@ class FOCALVisualizerDemo:
         
         ax.set_title('Cross-Similarity Matrix', fontsize=12, fontweight='bold')
     
-    def _plot_orthogonality_distribution(self, split_features, fig, gs):
+    def _plot_orthogonality_distribution(self, split_features, ax):
         """Orthogonality 분포"""
-        ax = fig.add_subplot(gs)
         
         all_sims = []
         for mod in split_features:
@@ -247,9 +245,8 @@ class FOCALVisualizerDemo:
                fontsize=11, ha='right', va='top', fontweight='bold',
                bbox=dict(boxstyle='round', facecolor=color, alpha=0.3))
     
-    def _plot_variance_ratio(self, split_features, fig, gs):
+    def _plot_variance_ratio(self, split_features, ax):
         """Variance 비율"""
-        ax = fig.add_subplot(gs)
         
         modalities = list(split_features.keys())
         shared_vars = []
@@ -285,9 +282,8 @@ class FOCALVisualizerDemo:
         ax.grid(True, alpha=0.3, axis='y')
         ax.axhspan(30, 70, alpha=0.1, color='green')
     
-    def _plot_feature_correlation(self, split_features, fig, gs):
+    def _plot_feature_correlation(self, split_features, ax):
         """Feature Correlation"""
-        ax = fig.add_subplot(gs)
         
         mod = list(split_features.keys())[0]
         
@@ -315,9 +311,8 @@ class FOCALVisualizerDemo:
                fontsize=10, va='top',
                bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
     
-    def _plot_summary_score(self, split_features, fig, gs):
+    def _plot_summary_score(self, split_features, ax):
         """종합 점수"""
-        ax = fig.add_subplot(gs)
         ax.axis('off')
         
         modalities = list(split_features.keys())
