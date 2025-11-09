@@ -156,8 +156,8 @@ class FOCALVisualizerDemo:
             ax.set_xlabel('t-SNE 1')
             ax.set_ylabel('t-SNE 2')
             
-            judgment = ("✓ 모달리티가 섞여야 함\n(공통 정보)" if space == 'shared' 
-                       else "✓ 모달리티가 분리되어야 함\n(고유 정보)")
+            judgment = ("✓ Modalities are mixed\n(Common information)" if space == 'shared' 
+                       else "✓ Modalities are separated\n(Unique information)")
             ax.text(0.02, 0.98, judgment, transform=ax.transAxes,
                    fontsize=10, verticalalignment='top',
                    bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
@@ -231,7 +231,7 @@ class FOCALVisualizerDemo:
         ax.axvline(mean_sim, color='red', linestyle='--', linewidth=2,
                   label=f'Mean: {mean_sim:.3f}')
         ax.axvline(0.1, color='green', linestyle=':', linewidth=2,
-                  label='목표: <0.1', alpha=0.7)
+                  label='Target: <0.1', alpha=0.7)
         
         ax.set_xlabel('|Cosine Similarity|', fontsize=11)
         ax.set_ylabel('Frequency', fontsize=11)
@@ -239,7 +239,7 @@ class FOCALVisualizerDemo:
         ax.legend()
         ax.grid(True, alpha=0.3, axis='y')
         
-        judgment = "✓ 잘 분리됨" if mean_sim < 0.1 else "✗ 분리 부족"
+        judgment = "✓ Well separated" if mean_sim < 0.1 else "✗ Poor separation"
         color = 'green' if mean_sim < 0.1 else 'red'
         ax.text(0.95, 0.95, judgment, transform=ax.transAxes,
                fontsize=11, ha='right', va='top', fontweight='bold',
@@ -363,7 +363,7 @@ class FOCALVisualizerDemo:
         
         # 시각화
         y_pos = 0.9
-        ax.text(0.5, y_pos, '📊 종합 평가', ha='center', va='top',
+        ax.text(0.5, y_pos, '📊 Overall Evaluation', ha='center', va='top',
                fontsize=14, fontweight='bold')
         
         y_pos -= 0.15
@@ -389,11 +389,11 @@ class FOCALVisualizerDemo:
         
         y_pos -= 0.15
         if overall > 70:
-            judgment = "✅ 우수: 잘 분리됨"
+            judgment = "✅ Excellent: Well separated"
         elif overall > 40:
-            judgment = "⚠️ 보통: 개선 필요"
+            judgment = "⚠️ Average: Improvement needed"
         else:
-            judgment = "❌ 불량: 분리 실패"
+            judgment = "❌ Poor: Separation failed"
         
         ax.text(0.5, y_pos, judgment, ha='center', va='center',
                fontsize=12, fontweight='bold')
@@ -405,7 +405,7 @@ class FOCALVisualizerDemo:
 def main():
     """메인 실행 함수"""
     print("\n" + "="*60)
-    print("🎨 FOCAL Shared/Private 분리 시각화 데모")
+    print("🎨 FOCAL Shared/Private Separation Visualization Demo")
     print("="*60)
     
     # 1. 더미 데이터 생성
