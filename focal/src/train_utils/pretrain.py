@@ -119,16 +119,18 @@ def pretrain(
             if visualizer is not None:
                 try:
                     # validation batch 가져오기
-                    val_batch, _ = next(iter(val_dataloader))
+                    val_batch, val_labels = next(iter(val_dataloader))
                     
-                    # augmentation 적용
-                    aug1 = augmenter.forward("fixed", val_batch)
-                    aug2 = augmenter.forward("fixed", val_batch)
+                    # augmentation 적용 (forward_fixed는 (data, labels) tuple 반환)
+                    aug_data, aug_labels = augmenter.forward("fixed", val_batch)
                     
-                    # features 추출 (projection head 제외)
+                    # features 추출 (같은 augmentation을 두 번 사용)
                     default_model.eval()
                     with torch.no_grad():
-                        mod_features, _ = default_model(aug1, aug2, proj_head=False)
+                        # FOCAL은 항상 2개의 입력 필요
+                        output = default_model(aug_data, aug_data, proj_head=False)
+                        # output: (features1, features2) tuple - 첫 번째만 사용
+                        mod_features = output[0] if isinstance(output, tuple) else output
                     default_model.train()
                     
                     # 시각화 저장
