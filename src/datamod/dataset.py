@@ -65,8 +65,11 @@ class TimeMMDDataset(Dataset):
         # Numerical data
         num_path = Path(root_dir) / 'numerical' / domain / f'{domain}.csv'
         num_df = pd.read_csv(num_path)
-        num_df['Date'] = pd.to_datetime(num_df['Date'])
-        num_df = num_df.sort_values('Date')
+        
+        # 날짜 컬럼 자동 감지
+        date_col = self._find_date_column(num_df)
+        num_df['date'] = pd.to_datetime(num_df[date_col])
+        num_df = num_df.sort_values('date')
         
         # Textual data (search 사용)
         text_path = Path(root_dir) / 'textual' / domain / f'{domain}_search.csv'
@@ -77,10 +80,18 @@ class TimeMMDDataset(Dataset):
         
         return num_df, text_df
     
+    def _find_date_column(self, df):
+        """날짜 컬럼 자동 찾기"""
+        possible_date_cols = ['date', 'Date', 'Month', 'MapDate']
+        for col in possible_date_cols:
+            if col in df.columns:
+                return col
+        return df.columns[0]
+    
     def _align_timeseries(self):
         """시간축을 정렬하여 같은 타임스탬프로 매칭"""
-        # Numerical: Date 기준
-        num_dates = pd.to_datetime(self.numerical_data['Date'])
+        # Numerical: date 기준
+        num_dates = pd.to_datetime(self.numerical_data['date'])
         
         # Textual: start_date 기준
         text_dates = pd.to_datetime(self.textual_data['start_date'])
@@ -95,7 +106,7 @@ class TimeMMDDataset(Dataset):
         aligned = []
         for date in all_dates:
             # Numerical 데이터
-            num_row = self.numerical_data[self.numerical_data['Date'] == date]
+            num_row = self.numerical_data[self.numerical_data['date'] == date]
             if len(num_row) > 0:
                 num_values = num_row.select_dtypes(include=[np.number]).values.flatten()
                 mask_A = 1

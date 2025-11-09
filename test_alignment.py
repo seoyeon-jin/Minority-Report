@@ -37,6 +37,7 @@ def test_alignment():
     
     print("\n" + "=" * 80)
     print("📦 Batch Information")
+    
     print("=" * 80)
     print(f"Batch size: {batch['xA'].shape[0]}")
     print(f"xA shape: {batch['xA'].shape}")
