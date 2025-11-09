@@ -1,10 +1,11 @@
 """데이터 정렬 확인 스크립트"""
 import sys
 from pathlib import Path
+import torch
 
 sys.path.append(str(Path(__file__).parent))
 
-from src.datamod.dataset_v2 import TimeMMDDatasetV2
+from src.datamod import TimeMMDDatasetV2, custom_collate_fn
 
 
 def test_alignment():
@@ -28,10 +29,10 @@ def test_alignment():
     # 첫 번째 샘플 확인
     dataset.verify_alignment(idx=0, n_steps=5)
     
-    # DataLoader로 배치 확인
+    # DataLoader로 배치 확인 (Custom collate function 사용)
     from torch.utils.data import DataLoader
     
-    loader = DataLoader(dataset, batch_size=2, shuffle=False)
+    loader = DataLoader(dataset, batch_size=2, shuffle=False, collate_fn=custom_collate_fn)
     batch = next(iter(loader))
     
     print("\n" + "=" * 80)
@@ -59,10 +60,32 @@ def test_alignment():
     print("      # dates[i][t]와 texts[i][t]는 xA[i,t], xB[i,t]와 매칭됨!")
     print("\n🔍 실제 사용 예시:")
     print("  # 첫 번째 샘플의 세 번째 시점")
-    print(f"  날짜: {batch['dates'][0][2]}")
-    print(f"  텍스트: {batch['texts'][0][2][:50]}...")
-    print(f"  Numerical 값: {batch['xA'][0][2][:3]}")
-    print(f"  Text 특성: {batch['xB'][0][2][:3]}")
+    if len(batch['dates'][0]) > 2:
+        print(f"  날짜: {batch['dates'][0][2]}")
+        text_sample = batch['texts'][0][2]
+        if len(text_sample) > 50:
+            print(f"  텍스트: {text_sample[:50]}...")
+        else:
+            print(f"  텍스트: {text_sample}")
+        print(f"  Numerical 값: {batch['xA'][0][2][:3]}")
+        print(f"  Text 특성: {batch['xB'][0][2][:3]}")
+    else:
+        print("  (윈도우가 너무 작아 예시를 생략합니다)")
+    
+    print("\n" + "=" * 80)
+    print("📝 중요: DataLoader 사용 시 custom_collate_fn 필요!")
+    print("=" * 80)
+    print("사용법:")
+    print("  from src.datamod import TimeMMDDatasetV2, custom_collate_fn")
+    print("  from torch.utils.data import DataLoader")
+    print("  ")
+    print("  dataset = TimeMMDDatasetV2(..., return_metadata=True)")
+    print("  loader = DataLoader(dataset, batch_size=32, collate_fn=custom_collate_fn)")
+    print("  ")
+    print("  for batch in loader:")
+    print("      dates = batch['dates']  # List[List[str]] - 배치 크기 x 윈도우 크기")
+    print("      texts = batch['texts']  # List[List[str]]")
+    print("      # dates[i][t]와 texts[i][t]는 xA[i,t], xB[i,t]와 완벽히 매칭됨!")
 
 
 if __name__ == '__main__':
